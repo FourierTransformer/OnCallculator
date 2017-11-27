@@ -42,13 +42,14 @@ class OnCallPerson:
         self.avoid_weeks = set([])
         self.assigned_holiday = False
 
+        # try to the load the file if it exists
         try:
             person_info = load_json_file(id + ".json")
-            vacations = person_info["vacations"]
-            previous_holidays = person_info["previousHolidays"]
         except IOError:
             pass
         else:
+            vacations = person_info["vacations"]
+            previous_holidays = person_info["previousHolidays"]
             self.parse_date_range(vacations, year, valid_days)
             self.parse_date_range(previous_holidays, year, valid_days)
 
@@ -114,6 +115,7 @@ class OnCallculator:
         return selected_index, selected_person
 
     def calculate_oncall(self):
+        # iterate over the week as nums
         for i in range(1, 53):
             # try to find out the best person for the job
             selected_index = None
