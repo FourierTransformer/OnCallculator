@@ -16,7 +16,7 @@ There are a few fun bugs, but are easy to get around:
  * Since there is a greedy preference for spreading out holidays and preferring vacations, people can be assigned two weeks in a row. In the example output below, bob is assigned on week 46 and 47 (Thanksgiving), as everyone else (except Alice) already has been assigned a holiday. Alice worked Thanksgiving last year, so she wont get it again. This is a forced example, but could happen in real life. It's up to bob to now find a replacement.
 
 # Example code
-As seen in the example directory:
+(example/oncalls.py)[example/oncalls.py]:
 
 ``` python
 import oncall
@@ -41,6 +41,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
+
+Run the example!
+```
+cd example
+python oncalls.py
 ```
 
 Example Output:
