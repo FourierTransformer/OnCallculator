@@ -1,0 +1,4 @@
+test/
+RULES
+.DS_Store
+*/*.pyc
