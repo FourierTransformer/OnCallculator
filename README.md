@@ -35,6 +35,10 @@ def main():
     
     # pass in the year, the list of valid days, and the list/
     oncalls = oncall.OnCallculator(2018, valid_days, people)
+
+    # can use this to only calculate oncall for the first 10 weeks
+    # oncalls = oncall.OnCallculator(2018, valid_days, people, 1, 10)
+
     oncalls.load_holidays("holidays.json")
     oncalls.calculate_oncall()
     print(oncalls)

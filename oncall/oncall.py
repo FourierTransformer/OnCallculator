@@ -48,10 +48,11 @@ class OnCallPerson:
         except IOError:
             pass
         else:
-            vacations = person_info["vacations"]
-            previous_holidays = person_info["previousHolidays"]
-            self.parse_date_range(vacations, year, valid_days)
-            self.parse_date_range(previous_holidays, year, valid_days)
+            if "vacations" in person_info:
+                self.parse_date_range(person_info["vacations"], year, valid_days)
+
+            if "previousHolidays" in person_info:
+                self.parse_date_range(person_info["previousHolidays"], year, valid_days)
 
     def parse_date_range(self, inputs, year, valid_days):
         for dates in inputs:
@@ -78,7 +79,7 @@ class OnCallPerson:
 
 class OnCallculator:
 
-    def __init__(self, year, valid_days, oncall_ids):
+    def __init__(self, year, valid_days, oncall_ids, start_week=1, end_week=52):
         self.year = year
         self.valid_days = valid_days
 
@@ -87,6 +88,10 @@ class OnCallculator:
         self.weeks[0] = None # there is no week 0...
 
         self.oncall_people = [OnCallPerson(x, year, valid_days) for x in oncall_ids]
+
+        # keep track of how much we need to do
+        self.start_range = start_week
+        self.end_range = end_week + 1
 
     def load_holidays(self, holiday_file):
         # load up the holidays json file.
@@ -116,7 +121,7 @@ class OnCallculator:
 
     def calculate_oncall(self):
         # iterate over the week as nums
-        for i in range(1, 53):
+        for i in range(self.start_range, self.end_range):
             # try to find out the best person for the job
             selected_index = None
             selected_person = None
@@ -152,7 +157,7 @@ class OnCallculator:
             counter[person.id] = 0
 
         # iterate over the weeks
-        for i in range(1, 53):
+        for i in range(self.start_range, self.end_range):
             counter[self.weeks[i].on_call] = counter[self.weeks[i].on_call] + 1
             output.append(str(self.weeks[i]))
 
