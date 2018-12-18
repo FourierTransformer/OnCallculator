@@ -1,6 +1,9 @@
 # OnCallculator
 The OnCallculator can create simple on call call calendars for people to use. It has been tested and working on python 2.7 and 3.6 (it should work with most versions).
 
+# Dependencies
+The OnCallculator now uses the [icalendar module](https://github.com/collective/icalendar) for generating ics files. If you don't need to generate an ics file, you don't need to install icalendar!
+
 # Usage
 After installing the module (or cloning the repo and modifying the example directory), you can easily get setup and going. It takes in a few things as external inputs:
 
@@ -42,6 +45,16 @@ def main():
     oncalls.load_holidays("holidays.json")
     oncalls.calculate_oncall()
     print(oncalls)
+
+    # generate an ICS file, this one imports nicely into Outlook (tested)
+    # NOTE: if showing people's vacation, it'll always have ALL vacation days,
+    # not just the ones in the weeks specified in the OnCallculator
+    # consider it a bug, or maybe a feature!
+    # to use this, make sure you have icalendar installed
+    oncall_file = oncalls.generate_ics(show_peoples_vacation=True)
+    f = open('example.ics', 'wb')
+    f.write(oncall_file)
+    f.close()
 
 if __name__ == "__main__":
     main()

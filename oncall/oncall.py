@@ -1,4 +1,3 @@
-from icalendar import Calendar, Event
 import time
 import datetime
 import json
@@ -159,6 +158,7 @@ class OnCallculator:
             self.oncall_people.append(oncall_person)
 
     def generate_ics(self, show_peoples_vacation=True):
+        from icalendar import Calendar, Event
         cal = Calendar()
         cal.add('prodid', '-//OnCallculator//v2//')
         cal.add('version', '2.0') # this is the ics version. don't change this.
