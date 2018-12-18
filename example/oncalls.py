@@ -17,13 +17,25 @@ def main():
     people = [ "alice", "bob", "carlos", "carol", "charlie", "dan", "eve", "steve" ]
     
     # pass in the year to calculate oncalls for, the list of valid days, and the list/
-    oncalls = oncall.OnCallculator(2018, valid_days, people)
+    #oncalls = oncall.OnCallculator(2018, valid_days, people)
 
-    # can use this to only calculate oncall for the first 10 weeks
-    # oncalls = oncall.OnCallculator(2018, valid_days, people, 1, 10)
-
+    # can use this to only calculate oncall for the first few weeks
+    oncalls = oncall.OnCallculator(2019, valid_days, people, 2, 5)
+    
+    # load holidays up
     oncalls.load_holidays("holidays.json")
+    
+    # do the work
     oncalls.calculate_oncall()
+
+    # generate an ICS file, this one imports nicely into Outlook (tested)
+    # NOTE: if showing people's vacation, it'll always have ALL vacation days,
+    # not just the ones in the weeks specified in the OnCallculator
+    # consider it a bug, or maybe a feature!
+    oncall_file = oncalls.generate_ics(show_peoples_vacation=True)
+    f = open('example.ics', 'wb')
+    f.write(oncall_file)
+    f.close()
     print(oncalls)
 
 if __name__ == "__main__":
